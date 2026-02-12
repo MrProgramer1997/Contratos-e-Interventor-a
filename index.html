@@ -3,96 +3,104 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Contratos & Interventoría – Club Campestre Pereira</title>
+  <title>Ingreso – Contratos & Interventoría</title>
   <link rel="stylesheet" href="./assets/css/styles.css" />
 </head>
 <body>
   <div class="topbar">
     <div class="nav">
-      <div class="brand">Corporación Club Campestre Pereira <span class="badge">Contratos & Interventoría</span></div>
+      <div class="brand">Club Campestre Pereira <span class="badge">Acceso</span></div>
     </div>
   </div>
 
   <div class="container">
-    <div class="grid grid-2">
-      <div class="card">
-        <h2>Iniciar sesión</h2>
-        <p class="small">Accede con tu correo institucional.</p>
-        <div class="row">
-          <div>
-            <label>Correo</label>
-            <input class="input" id="email" type="email" placeholder="correo@campestrepereira.com" />
-          </div>
-          <div>
-            <label>Contraseña</label>
-            <input class="input" id="password" type="password" placeholder="********" />
-          </div>
-          <button class="btn" id="btnLogin">Ingresar</button>
-          <div id="msg" class="toast small" style="display:none;"></div>
+    <div class="card" style="max-width:520px;margin:0 auto;">
+      <h2 style="margin-top:0;">Ingreso</h2>
+      <p class="small">Inicia sesión o crea tu usuario. (Luego el Admin asigna el rol).</p>
+
+      <!-- IMPORTANTE: NO usamos submit -->
+      <div class="grid grid-1">
+        <div>
+          <label>Correo</label>
+          <input class="input" id="email" type="email" placeholder="correo@campestrepereira.com" />
+        </div>
+
+        <div>
+          <label>Contraseña</label>
+          <input class="input" id="password" type="password" placeholder="••••••••" />
         </div>
       </div>
 
-      <div class="card">
-        <h2>Crear cuenta</h2>
-        <p class="small">
-          Regístrate con tu correo institucional. Si Supabase tiene confirmación por correo,
-          te llegará un email para activar tu cuenta.
-        </p>
-        <div class="row">
-          <div>
-            <label>Correo</label>
-            <input class="input" id="email2" type="email" placeholder="correo@campestrepereira.com" />
-          </div>
-          <div>
-            <label>Contraseña</label>
-            <input class="input" id="password2" type="password" placeholder="Mínimo 6 caracteres" />
-          </div>
-          <button class="btn secondary" id="btnRegister">Registrarme</button>
-          <div id="msg2" class="toast small" style="display:none;"></div>
-        </div>
+      <div class="hr"></div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
+        <button class="btn secondary" id="btnRegistro" type="button">Crear usuario</button>
+        <button class="btn" id="btnLogin" type="button">Ingresar</button>
       </div>
+
+      <div class="hr"></div>
+      <div class="small" id="msg"></div>
     </div>
   </div>
 
-  <!-- Supabase CDN -->
+  <!-- Supabase UMD -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script type="module">
     import "./js/supabaseClient.js";
-    import { signIn, signUp, getSession } from "./js/auth.js";
+    import { signUp, signIn } from "./js/auth.js";
+    import { toast, setLoading } from "./js/ui.js";
 
-    const msg = (el, text) => { el.style.display="block"; el.textContent=text; };
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const msg = document.getElementById("msg");
 
-    // Si ya hay sesión, directo al dashboard
-    const session = await getSession();
-    if (session) window.location.href = "./dashboard.html";
+    const btnRegistro = document.getElementById("btnRegistro");
+    const btnLogin = document.getElementById("btnLogin");
 
-    document.getElementById("btnLogin").addEventListener("click", async () => {
-      const m = document.getElementById("msg");
-      m.style.display="none";
+    function show(text) {
+      msg.textContent = text || "";
+    }
+
+    btnRegistro.addEventListener("click", async () => {
       try {
-        await signIn(
-          document.getElementById("email").value.trim(),
-          document.getElementById("password").value
-        );
-      } catch (e) {
-        msg(m, e.message || "No se pudo iniciar sesión.");
+        setLoading(btnRegistro, true, "Creando...");
+        show("");
+
+        const e = email.value.trim();
+        const p = password.value.trim();
+        if (!e || !p) return toast("Completa correo y contraseña.", "error");
+
+        await signUp(e, p);
+
+        toast("Usuario creado. Ahora puedes ingresar.", "success");
+        show("Usuario creado. Ahora inicia sesión.");
+      } catch (err) {
+        toast(err.message || "No se pudo registrar.", "error");
+        show(err.message || "No se pudo registrar.");
+      } finally {
+        setLoading(btnRegistro, false);
       }
     });
 
-    document.getElementById("btnRegister").addEventListener("click", async () => {
-      const m = document.getElementById("msg2");
-      m.style.display="none";
+    btnLogin.addEventListener("click", async () => {
       try {
-        const res = await signUp(
-          document.getElementById("email2").value.trim(),
-          document.getElementById("password2").value
-        );
-        if (res?.needsEmailConfirm) {
-          msg(m, "Te enviamos un correo de confirmación. Activa tu cuenta y luego inicia sesión.");
-        }
-      } catch (e) {
-        msg(m, e.message || "No se pudo registrar.");
+        setLoading(btnLogin, true, "Ingresando...");
+        show("");
+
+        const e = email.value.trim();
+        const p = password.value.trim();
+        if (!e || !p) return toast("Completa correo y contraseña.", "error");
+
+        await signIn(e, p);
+
+        toast("Bienvenido.", "success");
+        window.location.href = "./dashboard.html";
+      } catch (err) {
+        toast(err.message || "No se pudo ingresar.", "error");
+        show(err.message || "No se pudo ingresar.");
+      } finally {
+        setLoading(btnLogin, false);
       }
     });
   </script>
