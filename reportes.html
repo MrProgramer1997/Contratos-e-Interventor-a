@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Reportes – Excel</title>
+  <link rel="stylesheet" href="./assets/css/styles.css"/>
+</head>
+<body>
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">Club Campestre Pereira <span class="badge">Reportes</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <a class="btn secondary" href="./dashboard.html">Dashboard</a>
+        <a class="btn secondary" href="./contratos.html">Contratos</a>
+        <a class="btn secondary" href="./interventorias.html">Interventorías</a>
+        <button class="btn danger" id="btnSalir">Salir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2 style="margin-top:0;">Descargar Excel</h2>
+      <p class="small">Genera reportes de contratos e interventorías con filtros.</p>
+
+      <div class="grid grid-3">
+        <div>
+          <label>Desde</label>
+          <input class="input" type="date" id="desde">
+        </div>
+        <div>
+          <label>Hasta</label>
+          <input class="input" type="date" id="hasta">
+        </div>
+        <div>
+          <label>Estado contrato</label>
+          <select class="input" id="estadoContrato">
+            <option value="">Todos</option>
+            <option>RADICADO</option>
+            <option>EN_REVISION_JURIDICA</option>
+            <option>APROBADO_JURIDICO</option>
+            <option>RECHAZADO_JURIDICO</option>
+            <option>PENDIENTE_ACEPTACION</option>
+            <option>ACEPTADO</option>
+            <option>RECHAZADO</option>
+            <option>CERRADO</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:12px;">
+        <button class="btn" id="btnExcelContratos">Excel Contratos</button>
+        <button class="btn accent" id="btnExcelInterventorias">Excel Interventorías</button>
+      </div>
+
+      <div class="hr"></div>
+      <div class="small" id="info"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.20.2/dist/xlsx.full.min.js"></script>
+
+  <script type="module">
+    import "./js/supabaseClient.js";
+    import { requireAuth, signOut, getMyProfile } from "./js/auth.js";
+    import { initReportes } from "./js/reportes.js";
+
+    await requireAuth();
+    await getMyProfile();
+    document.getElementById("btnSalir").addEventListener("click", signOut);
+
+    initReportes();
+  </script>
+</body>
+</html>

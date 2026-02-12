@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Contratos – Club Campestre Pereira</title>
+  <link rel="stylesheet" href="./assets/css/styles.css"/>
+</head>
+<body>
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">Club Campestre Pereira <span class="badge">Contratos</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <a class="btn secondary" href="./dashboard.html">Dashboard</a>
+        <a class="btn secondary" href="./interventorias.html">Interventorías</a>
+        <a class="btn secondary" href="./reportes.html">Reportes</a>
+        <a class="btn secondary" href="./admin.html" id="adminLink" style="display:none;">Admin</a>
+        <button class="btn danger" id="btnSalir">Salir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end;">
+        <div>
+          <h2 style="margin:0;">Solicitudes de contrato</h2>
+          <div class="small" id="whoami"></div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div style="min-width:240px;">
+            <label>Buscar</label>
+            <input class="input" id="q" placeholder="Código, proveedor, área, servicio..."/>
+          </div>
+          <div style="min-width:220px;">
+            <label>Estado</label>
+            <select class="input" id="fEstado">
+              <option value="">Todos</option>
+              <option>RADICADO</option>
+              <option>EN_REVISION_JURIDICA</option>
+              <option>APROBADO_JURIDICO</option>
+              <option>RECHAZADO_JURIDICO</option>
+              <option>PENDIENTE_ACEPTACION</option>
+              <option>ACEPTADO</option>
+              <option>RECHAZADO</option>
+              <option>CERRADO</option>
+            </select>
+          </div>
+          <button class="btn" id="btnNuevo">+ Nuevo contrato</button>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div id="panelNuevo" class="card" style="display:none;">
+        <h3 style="margin-top:0;">Nueva solicitud (según formato PDF)</h3>
+
+        <div class="grid grid-2">
+          <div>
+            <label>Fecha de solicitud</label>
+            <input class="input" type="date" id="fecha_solicitud"/>
+          </div>
+          <div>
+            <label>Fecha de recepción</label>
+            <input class="input" type="date" id="fecha_recepcion"/>
+          </div>
+        </div>
+
+        <div class="grid grid-2" style="margin-top:10px;">
+          <div>
+            <label>Servicios requeridos</label>
+            <textarea class="input" id="servicios_requeridos" rows="3" placeholder="Describe el servicio requerido..."></textarea>
+          </div>
+          <div>
+            <label>Área solicitante</label>
+            <input class="input" id="area_solicitante" placeholder="Ej: Mantenimiento / A&B / Bienestar..."/>
+          </div>
+        </div>
+
+        <div style="margin-top:10px;">
+          <label>Motivo de solicitud</label>
+          <textarea class="input" id="motivo_solicitud" rows="2"></textarea>
+        </div>
+
+        <div class="hr"></div>
+
+        <h4 style="margin:0;">2. Condiciones contractuales</h4>
+        <div class="grid grid-3" style="margin-top:10px;">
+          <div>
+            <label>Tipo honorarios</label>
+            <select class="input" id="honorarios_tipo">
+              <option value="">Seleccione…</option>
+              <option value="horas">Por horas</option>
+              <option value="dias">Por días</option>
+              <option value="semana">Por semana</option>
+              <option value="mes">Por mes</option>
+              <option value="proyecto">Por proyecto</option>
+              <option value="unidad">Por unidad</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div>
+            <label>Otro (¿Cuál?)</label>
+            <input class="input" id="honorarios_otro" placeholder="Solo si selecciona 'Otro'"/>
+          </div>
+          <div>
+            <label>Valor honorarios / valor obra</label>
+            <input class="input" id="honorarios_valor" type="number" min="0" step="1"/>
+          </div>
+        </div>
+
+        <div class="grid grid-2" style="margin-top:10px;">
+          <div>
+            <label>Forma de pago</label>
+            <input class="input" id="forma_pago" placeholder="Ej: 30%-40%-30%"/>
+          </div>
+          <div>
+            <label>Duración del contrato</label>
+            <input class="input" id="duracion" placeholder="Ej: 45 días"/>
+          </div>
+        </div>
+
+        <div class="grid grid-2" style="margin-top:10px;">
+          <div>
+            <label>Fecha inicio contrato</label>
+            <input class="input" type="date" id="fecha_inicio"/>
+          </div>
+          <div>
+            <label>Fecha finalización contrato</label>
+            <input class="input" type="date" id="fecha_fin"/>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <h4 style="margin:0;">3. Observaciones</h4>
+        <div class="grid grid-2" style="margin-top:10px;">
+          <div>
+            <label>Objeto del contrato</label>
+            <textarea class="input" id="objeto_contrato" rows="3"></textarea>
+          </div>
+          <div>
+            <label>Obligaciones del contratista</label>
+            <textarea class="input" id="obligaciones_contratista" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <h4 style="margin:0;">4. Condiciones para interventoría</h4>
+        <p class="small" style="margin-top:6px;">
+          Si alguna aplica: interventoría obligatoria (una vez al año). :contentReference[oaicite:1]{index=1}
+        </p>
+
+        <div class="grid grid-3">
+          <div class="card">
+            <label><input type="checkbox" id="afecta_socio"/> El servicio afecta directamente al socio</label>
+          </div>
+          <div class="card">
+            <label><input type="checkbox" id="mayor_10m_anual"/> Contrato ≥ $10.000.000 en el año</label>
+          </div>
+          <div class="card">
+            <label><input type="checkbox" id="concesion_espacio"/> Contrato es concesión de espacio</label>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <h4 style="margin:0;">5. Documentos anexos</h4>
+        <div class="grid grid-3" style="margin-top:10px;">
+          <label><input type="checkbox" hooking="1" id="doc_propuesta"/> Propuesta comercial</label>
+          <label><input type="checkbox" id="doc_rut"/> RUT</label>
+          <label><input type="checkbox" id="doc_camara"/> Cámara de Comercio Persona Jurídica</label>
+          <label><input type="checkbox" id="doc_cert_bancaria"/> Certificación bancaria</label>
+          <label><input type="checkbox" id="doc_seg_social"/> Seguridad social y/o afiliación</label>
+          <label><input type="checkbox" id="doc_hoja_vida"/> Hoja de vida con soportes</label>
+          <label><input type="checkbox" id="doc_otro"/> Otro</label>
+          <div>
+            <label>¿Cuál?</label>
+            <input class="input" id="doc_otro_cual"/>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
+          <button class="btn secondary" id="btnCancelarNuevo">Cancelar</button>
+          <button class="btn" id="btnGuardarNuevo">Guardar (RADICADO)</button>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div style="overflow:auto;">
+        <table class="table" id="tbl">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Fecha</th>
+              <th>Área</th>
+              <th>Servicio</th>
+              <th>Estado</th>
+              <th>Interventoría</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module">
+    import "./js/supabaseClient.js";
+    import { requireAuth, signOut, getMyProfile } from "./js/auth.js";
+    import { initContratosPage } from "./js/contratos.js";
+
+    await requireAuth();
+    const profile = await getMyProfile();
+    if (profile.rol === "admin") document.getElementById("adminLink").style.display = "inline-block";
+    document.getElementById("whoami").textContent = `${profile.email} • ${profile.rol.toUpperCase()}${profile.area ? " • " + profile.area : ""}`;
+
+    document.getElementById("btnSalir").addEventListener("click", signOut);
+
+    await initContratosPage(profile);
+  </script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Detalle Interventoría</title>
+  <link rel="stylesheet" href="./assets/css/styles.css"/>
+</head>
+<body>
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">Club Campestre Pereira <span class="badge">Detalle interventoría</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <a class="btn secondary" href="./interventorias.html">Volver</a>
+        <a class="btn secondary" href="./dashboard.html">Dashboard</a>
+        <button class="btn danger" id="btnSalir">Salir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+        <div>
+          <h2 style="margin:0;">Interventoría <span id="codigo" class="badge">...</span></h2>
+          <div class="small" id="meta"></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <div id="estadoBadge"></div>
+          <button class="btn secondary" id="btnRefresh">Actualizar</button>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 style="margin-top:0;">Datos generales</h3>
+
+          <div class="grid grid-2">
+            <div>
+              <label>Nombre del contratista</label>
+              <input class="input" id="nombre_contratista"/>
+            </div>
+            <div>
+              <label>Fecha del informe</label>
+              <input class="input" type="date" id="fecha_informe"/>
+            </div>
+          </div>
+
+          <div class="grid grid-2" style="margin-top:10px;">
+            <div>
+              <label>Nombre del interventor</label>
+              <input class="input" id="nombre_interventor"/>
+            </div>
+            <div>
+              <label>Cargo</label>
+              <input class="input" id="cargo_interventor"/>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label>Tipo de contrato</label>
+            <input class="input" id="tipo_contrato"/>
+          </div>
+
+          <div class="hr"></div>
+
+          <h3 style="margin-top:0;">Revisión (SI / NO)</h3>
+          <div class="grid grid-2">
+            <div class="card">
+              <b>1. Calidad</b>
+              <div class="small">Cumple con los requerimientos del objeto del contrato</div>
+              <div style="margin-top:8px;">
+                <label><input type="radio" name="calidad" value="true"/> Sí</label>
+                <label style="margin-left:12px;"><input type="radio" name="calidad" value="false"/> No</label>
+              </div>
+            </div>
+
+            <div class="card">
+              <b>2. Oportunidad</b>
+              <div class="small">Cumplido y oportuno en compromisos contractuales</div>
+              <div style="margin-top:8px;">
+                <label><input type="radio" name="oportunidad" value="true"/> Sí</label>
+                <label style="margin-left:12px;"><input type="radio" name="oportunidad" value="false"/> No</label>
+              </div>
+            </div>
+
+            <div class="card">
+              <b>3. Recursos</b>
+              <div class="small">Eficiente en el uso de los recursos</div>
+              <div style="margin-top:8px;">
+                <label><input type="radio" name="recursos" value="true"/> Sí</label>
+                <label style="margin-left:12px;"><input type="radio" name="recursos" value="false"/> No</label>
+              </div>
+            </div>
+
+            <div class="card">
+              <b>4. Laboral / Prestaciones</b>
+              <div class="small">Pagos al día (seguridad social / colaboradores)</div>
+              <div style="margin-top:8px;">
+                <label><input type="radio" name="laboral_prestaciones" value="true"/> Sí</label>
+                <label style="margin-left:12px;"><input type="radio" name="laboral_prestaciones" value="false"/> No</label>
+              </div>
+            </div>
+
+            <div class="card">
+              <b>5. SST</b>
+              <div class="small">Cumple requisitos del manual de contratación</div>
+              <div style="margin-top:8px;">
+                <label><input type="radio" name="sst" value="true"/> Sí</label>
+                <label style="margin-left:12px;"><input type="radio" name="sst" value="false"/> No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="hr"></div>
+
+          <h3 style="margin-top:0;">Seguimiento contrato (SI / NO)</h3>
+          <div class="grid grid-2">
+            <label class="card"><input type="checkbox" id="firmas_requeridas"/> a) El contrato tiene las firmas requeridas</label>
+            <label class="card"><input type="checkbox" id="original_asuntos_legales"/> b) El original reposa en asuntos legales</label>
+            <label class="card"><input type="checkbox" id="copia_interventor"/> c) Una copia reposa en manos del interventor</label>
+            <label class="card"><input type="checkbox" id="contrato_vigente"/> d) Está vigente el contrato</label>
+            <label class="card"><input type="checkbox" id="actualizado_planilla"/> e) Está actualizado en la planilla de contratos</label>
+          </div>
+
+          <div class="hr"></div>
+
+          <label>Observaciones</label>
+          <textarea class="input" id="observaciones" rows="4"></textarea>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:12px;">
+            <button class="btn secondary" id="btnGuardar">Guardar</button>
+            <button class="btn accent" id="btnFinalizar">Finalizar</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0;">Plan de acción</h3>
+          <div class="small">Agrega actividades, fecha y responsable.</div>
+
+          <div class="grid grid-2" style="margin-top:10px;">
+            <div>
+              <label>Actividad</label>
+              <input class="input" id="pa_actividad" placeholder="Ej: Enviar certificación SST..."/>
+            </div>
+            <div>
+              <label>Fecha</label>
+              <input class="input" type="date" id="pa_fecha"/>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label>Responsable</label>
+            <input class="input" id="pa_responsable" placeholder="Ej: Contratista / Interventor / Área..."/>
+          </div>
+
+          <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;">
+            <button class="btn" id="btnAddPA">+ Agregar</button>
+          </div>
+
+          <div class="hr"></div>
+
+          <div style="overflow:auto;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Actividad</th>
+                  <th>Fecha</th>
+                  <th>Responsable</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="paRows"></tbody>
+            </table>
+          </div>
+
+          <div class="hr"></div>
+
+          <h3 style="margin-top:0;">Adjuntos (Evidencias)</h3>
+          <div class="small">Sube soportes, informes, fotos o evidencias.</div>
+
+          <div class="grid grid-2" style="margin-top:10px;">
+            <div>
+              <label>Archivo</label>
+              <input class="input" type="file" id="file"/>
+            </div>
+            <div>
+              <label>Nombre (opcional)</label>
+              <input class="input" id="file_name" placeholder="Ej: Informe mensual / Evidencia SST..."/>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;">
+            <button class="btn" id="btnSubir">Subir adjunto</button>
+          </div>
+
+          <div class="hr"></div>
+
+          <div style="overflow:auto;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Archivo</th>
+                  <th>Fecha</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="adjRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module">
+    import "./js/supabaseClient.js";
+    import { requireAuth, signOut, getMyProfile } from "./js/auth.js";
+    import { initInterventoriaDetalle } from "./js/interventorias.js";
+
+    await requireAuth();
+    const profile = await getMyProfile();
+    document.getElementById("btnSalir").addEventListener("click", signOut);
+
+    await initInterventoriaDetalle(profile);
+  </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Dashboard – Contratos & Interventoría</title>
+  <link rel="stylesheet" href="./assets/css/styles.css"/>
+</head>
+<body>
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">Club Campestre Pereira <span class="badge" id="roleBadge">...</span></div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <a class="btn secondary" href="./contratos.html">Contratos</a>
+        <a class="btn secondary" href="./interventorias.html">Interventorías</a>
+        <a class="btn secondary" href="./reportes.html">Reportes (Excel)</a>
+        <a class="btn secondary" href="./admin.html" id="adminLink" style="display:none;">Admin</a>
+        <button class="btn danger" id="btnSalir">Salir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>Panel principal</h2>
+      <p class="small" id="hello"></p>
+      <div class="hr"></div>
+      <div class="kpis">
+        <div class="card kpi">
+          <div class="num" id="k1">0</div>
+          <div class="label">Contratos en revisión jurídica</div>
+        </div>
+        <div class="card kpi">
+          <div class="num" id="k2">0</div>
+          <div class="label">Pendientes aceptación representante</div>
+        </div>
+        <div class="card kpi">
+          <div class="num" id="k3">0</div>
+          <div class="label">Interventorías por finalizar</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:16px;">
+      <div class="card">
+        <h3>Acciones rápidas</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a class="btn" href="./contratos.html">Crear / Ver contratos</a>
+          <a class="btn accent" href="./interventorias.html">Crear / Ver interventorías</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Regla de interventoría (automática)</h3>
+        <p class="small">
+          Si el contrato marca “Sí” en cualquiera de las condiciones del formato,
+          se activa <b>Interventoría obligatoria</b>. :contentReference[oaicite:1]{index=1}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module">
+    import "./js/supabaseClient.js";
+    import { requireAuth, signOut, getMyProfile } from "./js/auth.js";
+
+    await requireAuth();
+    const profile = await getMyProfile();
+
+    document.getElementById("roleBadge").textContent = profile.rol.toUpperCase();
+    document.getElementById("hello").textContent =
+      `Sesión: ${profile.email} ${profile.area ? "• " + profile.area : ""}`;
+
+    if (profile.rol === "admin") document.getElementById("adminLink").style.display = "inline-block";
+
+    // KPIs
+    const k1 = await supabaseClient.from("contratos")
+      .select("id", { count: "exact", head: true })
+      .eq("estado", "EN_REVISION_JURIDICA");
+    document.getElementById("k1").textContent = k1.count ?? 0;
+
+    const k2 = await supabaseClient.from("contratos")
+      .select("id", { count: "exact", head: true })
+      .eq("estado", "PENDIENTE_ACEPTACION");
+    document.getElementById("k2").textContent = k2.count ?? 0;
+
+    const k3 = await supabaseClient.from("interventorias")
+      .select("id", { count: "exact", head: true })
+      .eq("estado", "BORRADOR");
+    document.getElementById("k3").textContent = k3.count ?? 0;
+
+    document.getElementById("btnSalir").addEventListener("click", signOut);
+  </script>
+</body>
+</html>

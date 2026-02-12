@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin – Contratos & Interventoría</title>
+  <link rel="stylesheet" href="./assets/css/styles.css"/>
+</head>
+<body>
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">Club Campestre Pereira <span class="badge">Admin</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <a class="btn secondary" href="./dashboard.html">Dashboard</a>
+        <a class="btn secondary" href="./contratos.html">Contratos</a>
+        <a class="btn secondary" href="./interventorias.html">Interventorías</a>
+        <a class="btn secondary" href="./reportes.html">Reportes</a>
+        <button class="btn danger" id="btnSalir">Salir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end;">
+        <div>
+          <h2 style="margin:0;">Administración de usuarios</h2>
+          <div class="small" id="whoami"></div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div style="min-width:240px;">
+            <label>Buscar</label>
+            <input class="input" id="q" placeholder="correo, nombre, área..."/>
+          </div>
+          <div style="min-width:200px;">
+            <label>Rol</label>
+            <select class="input" id="fRol">
+              <option value="">Todos</option>
+              <option value="director">director</option>
+              <option value="abogado">abogado</option>
+              <option value="representante">representante</option>
+              <option value="interventor">interventor</option>
+              <option value="admin">admin</option>
+            </select>
+          </div>
+          <div style="min-width:180px;">
+            <label>Estado</label>
+            <select class="input" id="fActivo">
+              <option value="">Todos</option>
+              <option value="true">Activos</option>
+              <option value="false">Inactivos</option>
+            </select>
+          </div>
+
+          <button class="btn secondary" id="btnRefresh">Actualizar</button>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">Cómo funciona</h3>
+        <ul class="small" style="margin:0;">
+          <li>Los usuarios deben registrarse en <b>index.html</b> (correo + contraseña).</li>
+          <li>Cuando inician sesión por primera vez, se crea su registro en <b>profiles</b>.</li>
+          <li>Desde aquí (Admin) ajustas el <b>rol</b>, <b>área</b>, <b>nombre</b> y si está <b>activo</b>.</li>
+        </ul>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="small" id="info"></div>
+
+      <div class="hr"></div>
+
+      <div style="overflow:auto;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Correo</th>
+              <th>Nombre</th>
+              <th>Área</th>
+              <th>Rol</th>
+              <th>Activo</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module">
+    import "./js/supabaseClient.js";
+    import { requireAuth, signOut, getMyProfile } from "./js/auth.js";
+    import { initAdminPage } from "./js/admin.js";
+
+    await requireAuth();
+    const profile = await getMyProfile();
+
+    document.getElementById("whoami").textContent =
+      `${profile.email} • ${profile.rol.toUpperCase()}${profile.area ? " • " + profile.area : ""}`;
+
+    document.getElementById("btnSalir").addEventListener("click", signOut);
+
+    await initAdminPage(profile);
+  </script>
+</body>
+</html>

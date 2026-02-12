@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contratos & Interventoría – Club Campestre Pereira</title>
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">Corporación Club Campestre Pereira <span class="badge">Contratos & Interventoría</span></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>Iniciar sesión</h2>
+        <p class="small">Accede con tu correo institucional.</p>
+        <div class="row">
+          <div>
+            <label>Correo</label>
+            <input class="input" id="email" type="email" placeholder="correo@campestrepereira.com" />
+          </div>
+          <div>
+            <label>Contraseña</label>
+            <input class="input" id="password" type="password" placeholder="********" />
+          </div>
+          <button class="btn" id="btnLogin">Ingresar</button>
+          <div id="msg" class="toast small" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Crear cuenta</h2>
+        <p class="small">
+          Regístrate con tu correo institucional. Si Supabase tiene confirmación por correo,
+          te llegará un email para activar tu cuenta.
+        </p>
+        <div class="row">
+          <div>
+            <label>Correo</label>
+            <input class="input" id="email2" type="email" placeholder="correo@campestrepereira.com" />
+          </div>
+          <div>
+            <label>Contraseña</label>
+            <input class="input" id="password2" type="password" placeholder="Mínimo 6 caracteres" />
+          </div>
+          <button class="btn secondary" id="btnRegister">Registrarme</button>
+          <div id="msg2" class="toast small" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script type="module">
+    import "./js/supabaseClient.js";
+    import { signIn, signUp, getSession } from "./js/auth.js";
+
+    const msg = (el, text) => { el.style.display="block"; el.textContent=text; };
+
+    // Si ya hay sesión, directo al dashboard
+    const session = await getSession();
+    if (session) window.location.href = "./dashboard.html";
+
+    document.getElementById("btnLogin").addEventListener("click", async () => {
+      const m = document.getElementById("msg");
+      m.style.display="none";
+      try {
+        await signIn(
+          document.getElementById("email").value.trim(),
+          document.getElementById("password").value
+        );
+      } catch (e) {
+        msg(m, e.message || "No se pudo iniciar sesión.");
+      }
+    });
+
+    document.getElementById("btnRegister").addEventListener("click", async () => {
+      const m = document.getElementById("msg2");
+      m.style.display="none";
+      try {
+        const res = await signUp(
+          document.getElementById("email2").value.trim(),
+          document.getElementById("password2").value
+        );
+        if (res?.needsEmailConfirm) {
+          msg(m, "Te enviamos un correo de confirmación. Activa tu cuenta y luego inicia sesión.");
+        }
+      } catch (e) {
+        msg(m, e.message || "No se pudo registrar.");
+      }
+    });
+  </script>
+</body>
+</html>
