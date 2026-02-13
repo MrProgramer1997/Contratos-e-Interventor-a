@@ -20,7 +20,23 @@
 
   <div class="container">
     <div class="card">
-      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+
+      <!-- ✅ Encabezado Formato de Calidad (Interventorías) -->
+      <div class="card" style="border:1px solid rgba(0,0,0,.08);">
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="font-weight:800;letter-spacing:.3px;">PLANILLA INTERVENTORÍAS</div>
+            <span class="badge">Formato</span>
+          </div>
+          <div class="small" style="display:flex;gap:18px;flex-wrap:wrap;">
+            <div><b>Fecha:</b> 14 de agosto de 2024</div>
+            <div><b>Versión:</b> 4</div>
+            <div><b>Página:</b> 1 de 1</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-top:12px;">
         <div>
           <h2 style="margin:0;">Interventoría <span id="codigo" class="badge">...</span></h2>
           <div class="small" id="meta"></div>
@@ -131,8 +147,8 @@
           <textarea class="input" id="observaciones" rows="4"></textarea>
 
           <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:12px;">
-            <button class="btn secondary" id="btnGuardar">Guardar</button>
-            <button class="btn accent" id="btnFinalizar">Finalizar</button>
+            <button class="btn secondary" id="btnGuardar" type="button">Guardar</button>
+            <button class="btn accent" id="btnFinalizar" type="button">Finalizar</button>
           </div>
         </div>
 
@@ -157,7 +173,7 @@
           </div>
 
           <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;">
-            <button class="btn" id="btnAddPA">+ Agregar</button>
+            <button class="btn" id="btnAddPA" type="button">+ Agregar</button>
           </div>
 
           <div class="hr"></div>
@@ -193,7 +209,7 @@
           </div>
 
           <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;">
-            <button class="btn" id="btnSubir">Subir adjunto</button>
+            <button class="btn" id="btnSubir" type="button">Subir adjunto</button>
           </div>
 
           <div class="hr"></div>

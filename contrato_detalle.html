@@ -20,7 +20,23 @@
 
   <div class="container">
     <div class="card">
-      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+
+      <!-- ✅ Encabezado Formato de Calidad (estático como el PDF) -->
+      <div class="card" style="border:1px solid rgba(0,0,0,.08);">
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="font-weight:800;letter-spacing:.3px;">SOLICITUD DE REALIZACIÓN DE CONTRATO</div>
+            <span class="badge">Formato</span>
+          </div>
+          <div class="small" style="display:flex;gap:18px;flex-wrap:wrap;">
+            <div><b>Fecha:</b> 24 de abril de 2025</div>
+            <div><b>Versión:</b> 2</div>
+            <div><b>Página:</b> 1 de 1</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-top:12px;">
         <div>
           <h2 style="margin:0;">Contrato <span id="codigo" class="badge">...</span></h2>
           <div class="small" id="meta"></div>
@@ -35,7 +51,7 @@
       <div id="ivBox" class="card" style="display:none;margin-top:12px;border-left:6px solid var(--accent);">
         <h3 style="margin:0;">Interventoría obligatoria</h3>
         <p class="small" style="margin:8px 0 0;">
-          Este contrato cumple una o más condiciones del formato y requiere interventoría. :contentReference[oaicite:1]{index=1}
+          Este contrato requiere interventoría según las condiciones del formato.
         </p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;justify-content:flex-end;">
           <button class="btn accent" id="btnCrearInterventoria" style="display:none;">Crear interventoría</button>
@@ -47,145 +63,232 @@
 
       <div class="grid grid-2">
         <div class="card">
-          <h3 style="margin-top:0;">Información del servicio</h3>
-          <div class="row">
-            <div class="grid grid-2">
-              <div>
-                <label>Fecha solicitud</label>
-                <input class="input" type="date" id="fecha_solicitud"/>
-              </div>
-              <div>
-                <label>Fecha recepción</label>
-                <input class="input" type="date" id="fecha_recepcion"/>
-              </div>
-            </div>
+          <h3 style="margin-top:0;">1. Información del servicio</h3>
 
+          <div class="grid grid-2">
             <div>
-              <label>Servicios requeridos</label>
-              <textarea class="input" id="servicios_requeridos" rows="3"></textarea>
+              <label>Fecha solicitud</label>
+              <input class="input" type="date" id="fecha_solicitud"/>
             </div>
+            <div>
+              <label>Fecha recepción</label>
+              <input class="input" type="date" id="fecha_recepcion"/>
+            </div>
+          </div>
 
-            <div>
-              <label>Área solicitante</label>
-              <input class="input" id="area_solicitante"/>
-            </div>
+          <div style="margin-top:10px;">
+            <label>Servicios requeridos</label>
+            <textarea class="input" id="servicios_requeridos" rows="3"></textarea>
+          </div>
 
-            <div>
-              <label>Motivo solicitud</label>
-              <textarea class="input" id="motivo_solicitud" rows="2"></textarea>
-            </div>
+          <div style="margin-top:10px;">
+            <label>Área solicitante</label>
+            <input class="input" id="area_solicitante"/>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label>Motivo solicitud</label>
+            <textarea class="input" id="motivo_solicitud" rows="2"></textarea>
           </div>
         </div>
 
         <div class="card">
-          <h3 style="margin-top:0;">Condiciones contractuales</h3>
-          <div class="row">
+          <h3 style="margin-top:0;">2. Condiciones contractuales</h3>
+
+          <div class="grid grid-2">
+            <div>
+              <label>Tipo honorarios</label>
+              <select class="input" id="honorarios_tipo">
+                <option value="">Seleccione…</option>
+                <option value="horas">Por horas</option>
+                <option value="dias">Por días</option>
+                <option value="semana">Por semana</option>
+                <option value="mes">Por mes</option>
+                <option value="proyecto">Por proyecto</option>
+                <option value="unidad">Por unidad</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+            <div>
+              <label>Otro (¿Cuál?)</label>
+              <input class="input" id="honorarios_otro"/>
+            </div>
+          </div>
+
+          <div class="grid grid-2" style="margin-top:10px;">
+            <div>
+              <label>Valor honorarios</label>
+              <input class="input" type="number" id="honorarios_valor" min="0" step="1"/>
+            </div>
+            <div>
+              <label>Forma de pago</label>
+              <input class="input" id="forma_pago"/>
+            </div>
+          </div>
+
+          <div class="grid grid-2" style="margin-top:10px;">
+            <div>
+              <label>Duración</label>
+              <input class="input" id="duracion"/>
+            </div>
+            <div>
+              <label>Interventoría obligatoria</label>
+              <input class="input" id="interventoria_obligatoria" disabled/>
+            </div>
+          </div>
+
+          <div class="grid grid-2" style="margin-top:10px;">
+            <div>
+              <label>Fecha inicio</label>
+              <input class="input" type="date" id="fecha_inicio"/>
+            </div>
+            <div>
+              <label>Fecha fin</label>
+              <input class="input" type="date" id="fecha_fin"/>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:12px;">
+            <h4 style="margin:0;">4. Condiciones para interventoría</h4>
+            <p class="small" style="margin-top:6px;">
+              Si alguna aplica: interventoría obligatoria (una vez al año).
+            </p>
             <div class="grid grid-2">
-              <div>
-                <label>Tipo honorarios</label>
-                <select class="input" id="honorarios_tipo">
-                  <option value="">Seleccione…</option>
-                  <option value="horas">Por horas</option>
-                  <option value="dias">Por días</option>
-                  <option value="semana">Por semana</option>
-                  <option value="mes">Por mes</option>
-                  <option value="proyecto">Por proyecto</option>
-                  <option value="unidad">Por unidad</option>
-                  <option value="otro">Otro</option>
-                </select>
-              </div>
-              <div>
-                <label>Otro (¿Cuál?)</label>
-                <input class="input" id="honorarios_otro"/>
-              </div>
+              <label><input type="checkbox" id="afecta_socio"/> El servicio afecta directamente al socio</label>
+              <label><input type="checkbox" id="mayor_10m_anual"/> Contrato ≥ $10.000.000 en el año</label>
+              <label><input type="checkbox" id="concesion_espacio"/> Contrato es concesión de espacio</label>
             </div>
+          </div>
 
-            <div class="grid grid-2">
-              <div>
-                <label>Valor honorarios</label>
-                <input class="input" type="number" id="honorarios_valor" min="0" step="1"/>
-              </div>
-              <div>
-                <label>Forma de pago</label>
-                <input class="input" id="forma_pago"/>
-              </div>
-            </div>
+          <!-- ✅ Parte 5 con carga de archivos por documento -->
+          <div class="card" style="margin-top:12px;">
+            <h4 style="margin:0;">5. Documentos anexos a la solicitud (Importantes)</h4>
+            <p class="small" style="margin-top:6px;">
+              Marca el documento y adjunta el soporte correspondiente.
+            </p>
 
-            <div class="grid grid-2">
-              <div>
-                <label>Duración</label>
-                <input class="input" id="duracion"/>
+            <div class="grid grid-2" style="margin-top:10px;">
+              <!-- Propuesta -->
+              <div class="card">
+                <label style="display:flex;gap:10px;align-items:center;">
+                  <input type="checkbox" id="doc_propuesta"/>
+                  <b>Propuesta comercial</b>
+                </label>
+                <div class="small" id="link_doc_propuesta" style="margin-top:6px;"></div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+                  <input class="input" type="file" id="file_doc_propuesta"/>
+                  <button class="btn secondary" id="btn_doc_propuesta" type="button">Adjuntar</button>
+                </div>
               </div>
-              <div>
-                <label>Interventoría obligatoria</label>
-                <input class="input" id="interventoria_obligatoria" disabled/>
-              </div>
-            </div>
 
-            <div class="grid grid-2">
-              <div>
-                <label>Fecha inicio</label>
-                <input class="input" type="date" id="fecha_inicio"/>
+              <!-- RUT -->
+              <div class="card">
+                <label style="display:flex;gap:10px;align-items:center;">
+                  <input type="checkbox" id="doc_rut"/>
+                  <b>RUT</b>
+                </label>
+                <div class="small" id="link_doc_rut" style="margin-top:6px;"></div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+                  <input class="input" type="file" id="file_doc_rut"/>
+                  <button class="btn secondary" id="btn_doc_rut" type="button">Adjuntar</button>
+                </div>
               </div>
-              <div>
-                <label>Fecha fin</label>
-                <input class="input" type="date" id="fecha_fin"/>
-              </div>
-            </div>
 
-            <div class="card">
-              <h4 style="margin:0;">Condiciones para interventoría</h4>
-              <p class="small" style="margin-top:6px;">
-                Si alguna aplica: interventoría obligatoria (una vez al año). :contentReference[oaicite:2]{index=2}
-              </p>
-              <div class="grid grid-2">
-                <label><input type="checkbox" id="afecta_socio"/> Afecta al socio</label>
-                <label><input type="checkbox" id="mayor_10m_anual"/> ≥ $10.000.000 anual</label>
-                <label><input type="checkbox" id="concesion_espacio"/> Concesión de espacio</label>
+              <!-- Cámara -->
+              <div class="card">
+                <label style="display:flex;gap:10px;align-items:center;">
+                  <input type="checkbox" id="doc_camara"/>
+                  <b>Cámara de Comercio (Persona Jurídica)</b>
+                </label>
+                <div class="small" id="link_doc_camara" style="margin-top:6px;"></div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+                  <input class="input" type="file" id="file_doc_camara"/>
+                  <button class="btn secondary" id="btn_doc_camara" type="button">Adjuntar</button>
+                </div>
               </div>
-            </div>
 
-            <div class="card">
-              <h4 style="margin:0;">Documentos anexos</h4>
-              <div class="grid grid-2" style="margin-top:10px;">
-                <label><input type="checkbox" id="doc_propuesta"/> Propuesta comercial</label>
-                <label><input type="checkbox" id="doc_rut"/> RUT</label>
-                <label><input type="checkbox" id="doc_camara"/> Cámara de Comercio</label>
-                <label><input type="checkbox" id="doc_cert_bancaria"/> Certificación bancaria</label>
-                <label><input type="checkbox" id="doc_seg_social"/> Seguridad social</label>
-                <label><input type="checkbox" id="doc_hoja_vida"/> Hoja de vida</label>
-                <label><input type="checkbox" id="doc_otro"/> Otro</label>
-                <div>
+              <!-- Cert bancaria -->
+              <div class="card">
+                <label style="display:flex;gap:10px;align-items:center;">
+                  <input type="checkbox" id="doc_cert_bancaria"/>
+                  <b>Certificación bancaria</b>
+                </label>
+                <div class="small" id="link_doc_cert_bancaria" style="margin-top:6px;"></div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+                  <input class="input" type="file" id="file_doc_cert_bancaria"/>
+                  <button class="btn secondary" id="btn_doc_cert_bancaria" type="button">Adjuntar</button>
+                </div>
+              </div>
+
+              <!-- Seguridad -->
+              <div class="card">
+                <label style="display:flex;gap:10px;align-items:center;">
+                  <input type="checkbox" id="doc_seg_social"/>
+                  <b>Seguridad social y/o afiliación</b>
+                </label>
+                <div class="small" id="link_doc_seg_social" style="margin-top:6px;"></div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+                  <input class="input" type="file" id="file_doc_seg_social"/>
+                  <button class="btn secondary" id="btn_doc_seg_social" type="button">Adjuntar</button>
+                </div>
+              </div>
+
+              <!-- Hoja de vida -->
+              <div class="card">
+                <label style="display:flex;gap:10px;align-items:center;">
+                  <input type="checkbox" id="doc_hoja_vida"/>
+                  <b>Hoja de vida con soportes</b>
+                </label>
+                <div class="small" id="link_doc_hoja_vida" style="margin-top:6px;"></div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+                  <input class="input" type="file" id="file_doc_hoja_vida"/>
+                  <button class="btn secondary" id="btn_doc_hoja_vida" type="button">Adjuntar</button>
+                </div>
+              </div>
+
+              <!-- Otro -->
+              <div class="card">
+                <label style="display:flex;gap:10px;align-items:center;">
+                  <input type="checkbox" id="doc_otro"/>
+                  <b>Otro</b>
+                </label>
+                <div style="margin-top:8px;">
                   <label>¿Cuál?</label>
                   <input class="input" id="doc_otro_cual"/>
                 </div>
+                <div class="small" id="link_doc_otro" style="margin-top:6px;"></div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+                  <input class="input" type="file" id="file_doc_otro"/>
+                  <button class="btn secondary" id="btn_doc_otro" type="button">Adjuntar</button>
+                </div>
               </div>
             </div>
+          </div>
 
-            <div class="grid grid-2">
-              <div>
-                <label>Objeto del contrato</label>
-                <textarea class="input" id="objeto_contrato" rows="3"></textarea>
-              </div>
-              <div>
-                <label>Obligaciones del contratista</label>
-                <textarea class="input" id="obligaciones_contratista" rows="3"></textarea>
-              </div>
+          <div class="grid grid-2" style="margin-top:12px;">
+            <div>
+              <label>Objeto del contrato</label>
+              <textarea class="input" id="objeto_contrato" rows="3"></textarea>
             </div>
+            <div>
+              <label>Obligaciones del contratista</label>
+              <textarea class="input" id="obligaciones_contratista" rows="3"></textarea>
+            </div>
+          </div>
 
-            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
-              <button class="btn secondary" id="btnGuardar">Guardar cambios</button>
-            </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:12px;">
+            <button class="btn secondary" id="btnGuardar" type="button">Guardar cambios</button>
           </div>
         </div>
       </div>
 
       <div class="hr"></div>
 
+      <!-- Adjuntos generales (se mantiene) -->
       <div class="grid grid-2">
         <div class="card">
-          <h3 style="margin-top:0;">Adjuntos</h3>
-          <p class="small">Carga documentos del contrato (Storage + DB).</p>
+          <h3 style="margin-top:0;">Adjuntos generales</h3>
+          <p class="small">Puedes cargar cualquier documento adicional del contrato.</p>
 
           <div class="grid grid-2">
             <div>
@@ -194,12 +297,12 @@
             </div>
             <div>
               <label>Nombre (opcional)</label>
-              <input class="input" id="file_name" placeholder="Ej: RUT / Propuesta / Cámara de comercio..."/>
+              <input class="input" id="file_name" placeholder="Ej: Acta / Cotización / Anexo..."/>
             </div>
           </div>
 
           <div style="margin-top:10px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;">
-            <button class="btn" id="btnSubir">Subir adjunto</button>
+            <button class="btn" id="btnSubir" type="button">Subir adjunto</button>
           </div>
 
           <div class="hr"></div>
@@ -230,12 +333,12 @@
             <div>
               <label>Acciones</label>
               <div class="row">
-                <button class="btn secondary" id="btnEnviarJuridica" style="display:none;">Enviar a revisión jurídica</button>
-                <button class="btn accent" id="btnAprobarJuridico" style="display:none;">Aprobar jurídico</button>
-                <button class="btn danger" id="btnRechazarJuridico" style="display:none;">Rechazar jurídico</button>
+                <button class="btn secondary" id="btnEnviarJuridica" style="display:none;" type="button">Enviar a revisión jurídica</button>
+                <button class="btn accent" id="btnAprobarJuridico" style="display:none;" type="button">Aprobar jurídico</button>
+                <button class="btn danger" id="btnRechazarJuridico" style="display:none;" type="button">Rechazar jurídico</button>
 
-                <button class="btn accent" id="btnAceptar" style="display:none;">Aceptar (Representante)</button>
-                <button class="btn danger" id="btnRechazar" style="display:none;">Rechazar (Representante)</button>
+                <button class="btn accent" id="btnAceptar" style="display:none;" type="button">Aceptar (Representante)</button>
+                <button class="btn danger" id="btnRechazar" style="display:none;" type="button">Rechazar (Representante)</button>
               </div>
             </div>
           </div>
