@@ -474,3 +474,31 @@ export async function initContratoDetalle(profile) {
     toast(e.message || "No se pudo cargar el contrato.", "error");
   }
 }
+
+/* ======================================================
+   COMPATIBILIDAD LISTADO (contratos.html)
+   ====================================================== */
+
+export async function initContratosPage(profile) {
+
+  console.log("initContratosPage cargado correctamente");
+  console.log("Perfil:", profile);
+
+  // Mostrar botón Nuevo contrato solo a director o admin
+  const btnNuevo =
+    document.getElementById("btnNuevoContrato") ||
+    document.getElementById("btnNuevo");
+
+  if (btnNuevo) {
+    const puedeCrear = ["director", "admin"].includes(profile?.rol);
+
+    btnNuevo.style.display = puedeCrear ? "inline-block" : "none";
+
+    btnNuevo.addEventListener("click", () => {
+      window.location.href = "./contrato_detalle.html";
+    });
+  }
+
+  // Aquí puedes luego colocar la carga de la tabla
+  // Por ahora evitamos que la página se rompa
+}
